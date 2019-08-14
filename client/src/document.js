@@ -5,6 +5,7 @@ import { NoMatch } from "./routing";
 import { InteractiveExample } from "./ingredients/interactive-example";
 import { Attributes } from "./ingredients/attributes";
 import { Examples } from "./ingredients/examples";
+import BrowserCompatibilityTable from "./ingredients/browser-compatibility-table/browser-compatibility-table";
 
 export class Document extends React.Component {
   state = {
@@ -158,7 +159,7 @@ function RenderHTMLElementDocument({ document }) {
   );
   sections.push(<Examples key="examples" document={document} />);
   sections.push(
-    <BrowserCompatibility key="browser_compatibility" document={document} />
+    <BrowserCompatibilityTable key="browser_compatibility" document={document} category={'html'} />
   );
   sections.push(
     <ProseWithHeading key="see_also" section={document.prose.see_also} />
@@ -192,37 +193,6 @@ function Contributors({ contributors }) {
       <b>Contributors to this page:</b>
       <span dangerouslySetInnerHTML={{ __html: contributors }} />
     </div>
-  );
-}
-
-function BrowserCompatibility({ content }) {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th rowSpan={2} />
-          <th colSpan={2}>Desktop</th>
-          <th colSpan={2}>Mobile</th>
-        </tr>
-        <tr>
-          <th>Chrome</th>
-          <th>Edge</th>
-          <th>Chrome</th>
-          <th>Edge</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <code>video</code>
-          </td>
-          <td style={{ backgroundColor: "#e4f8e1" }}>3</td>
-          <td style={{ backgroundColor: "#e4f8e1" }}>Yes</td>
-          <td>?</td>
-          <td style={{ backgroundColor: "#f8e1e1" }}>No</td>
-        </tr>
-      </tbody>
-    </table>
   );
 }
 
