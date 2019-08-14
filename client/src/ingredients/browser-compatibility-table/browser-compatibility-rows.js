@@ -39,6 +39,25 @@ function getVersion(version_added) {
   }
 }
 
+function getIndexNoteForBrowserDetail(indexNotes, browserDetailIndex) {
+  return indexNotes.find(indexNotes => (indexNotes.index === browserDetailIndex));
+}
+
+function RenderBrowserSupportDetails({browserSupportDetails, rowIndex, indexNotes, currentNoteId, onNotesClick}) {
+  return browserSupportDetails.map((browserSupportDetail, detailIndex) =>
+    <BrowserSupportDetail
+      key={`${rowIndex}-${detailIndex}`}
+      index={`${rowIndex}-${detailIndex}`}
+      browser={browserSupportDetail.browser}
+      support={browserSupportDetail.support}
+      versionAdded={browserSupportDetail.version_added}
+      currentNoteId={currentNoteId}
+      onNotesClick={onNotesClick}
+      indexNote={getIndexNoteForBrowserDetail(indexNotes, `${rowIndex}-${detailIndex}`)}
+    />
+  )
+}
+
 function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag, hasPrefix, hasAlternative) {
   return [
     browserSupportDetails.map((browserSupportDetail, detailIndex) => {
@@ -149,20 +168,7 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
                 }
         		  </div>
           </th>
-          {browserSupportDetails.map((browserSupportDetail, detailIndex) => {
-            return (
-              <BrowserSupportDetail
-                key={`${rowIndex}-${detailIndex}`}
-                index={`${rowIndex}-${detailIndex}`}
-                browser={browserSupportDetail.browser}
-                support={browserSupportDetail.support}
-                versionAdded={browserSupportDetail.version_added}
-                currentNoteId={currentNoteId}
-                onNotesClick={onNotesClick}
-                indexNote={indexNotes.find(indexNotes => (indexNotes.index === `${rowIndex}-${detailIndex}`))}
-              />
-            )
-          })}
+          <RenderBrowserSupportDetails browserSupportDetails={browserSupportDetails} rowIndex={rowIndex} indexNotes={indexNotes} currentNoteId={currentNoteId} onNotesClick={onNotesClick} />
        </tr>,
        ...indexNotes.map((indexNote) => {
          return (
