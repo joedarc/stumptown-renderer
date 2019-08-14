@@ -14,7 +14,6 @@ const browsers = {
 export default class BrowserCompatibilityTable extends Component {
   constructor (props) {
     super(props);
-    console.log(props.document);
     this.state = {
       compatibilityData: props.document.browser_compatibility,
       currentNoteId: null,
@@ -56,7 +55,7 @@ export default class BrowserCompatibilityTable extends Component {
     }
   }
 
-  setLegendIcons(hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix) {
+  setLegendIcons(hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative) {
     if (!this.state.legendSet) {
       this.setState({
         hasDeprecation: hasDeprecation,
@@ -64,6 +63,7 @@ export default class BrowserCompatibilityTable extends Component {
         hasNonStandard: hasNonStandard,
         hasFlag: hasFlag,
         hasPrefix: hasPrefix,
+        hasAlternative: hasAlternative,
         legendSet: true
       });
     }
@@ -79,10 +79,23 @@ export default class BrowserCompatibilityTable extends Component {
             <BrowserCompatibilityBrowsers displayBrowsers={ displayBrowsers } />
           </thead>
           <tbody>
-            <BrowserCompatibilityRows compatibilityData={ this.state.compatibilityData } displayBrowsers={ displayBrowsers } currentNoteId={ this.state.currentNoteId } onNotesClick={ this.onNotesClick } setLegendIcons={ this.setLegendIcons } />
+            <BrowserCompatibilityRows
+              compatibilityData={ this.state.compatibilityData }
+              displayBrowsers={ displayBrowsers }
+              currentNoteId={ this.state.currentNoteId }
+              onNotesClick={ this.onNotesClick }
+              setLegendIcons={ this.setLegendIcons }
+            />
           </tbody>
         </table>,
-        <BrowserCompatibilityLegend key={"bc-legend"} hasDeprecation={this.state.hasDeprecation} hasExperimental={this.state.hasExperimental} hasNonStandard={this.state.hasNonStandard} hasFlag={this.state.hasFlag} hasPrefix={this.state.hasPrefix}/>
+        <BrowserCompatibilityLegend
+          key={"bc-legend"}
+          hasDeprecation={this.state.hasDeprecation}
+          hasExperimental={this.state.hasExperimental}
+          hasNonStandard={this.state.hasNonStandard}
+          hasFlag={this.state.hasFlag}
+          hasPrefix={this.state.hasPrefix}
+          hasAlternative={this.state.hasAlternative}/>
       ]
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 
-export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix }) {
+export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative }) {
   return (
     <section className="bc-legend" id="sect9">
        <h3 className="offscreen highlight-spanned" id="Legend"><span className="highlight-span">Legend</span></h3>
@@ -56,6 +56,12 @@ export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, ha
             [
               <dt key="prefix-dt"><abbr className="only-icon" title="Requires a vendor prefix or different name for use."><span>Requires a vendor prefix or different name for use.</span><i className="ic-prefix"></i></abbr></dt>,
               <dd key="prefix-dd">Requires a vendor prefix or different name for use.</dd>
+            ]
+          }
+          {hasAlternative &&
+            [
+              <dt key="alternative-dt"><abbr className="only-icon" title="Uses a non-standard name."><span>Uses a non-standard name.</span><i className="ic-altname"></i></abbr></dt>,
+              <dd key="alternative-dd">Uses a non-standard name.</dd>
             ]
           }
        </dl>

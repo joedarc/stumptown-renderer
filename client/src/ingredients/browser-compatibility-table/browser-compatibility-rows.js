@@ -39,21 +39,38 @@ function getVersion(version_added) {
   }
 }
 
-function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag, hasPrefix) {
+function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag, hasPrefix, hasAlternative) {
   return [
     browserSupportDetails.map((browserSupportDetail, detailIndex) => {
+      let currentNotes = [];
+      let currentFlags = [];
+      let currentPrefixes = [];
+      let currentAlternatives = [];
       let currentSupport = browserSupportDetail.support;
       if (Array.isArray(currentSupport)) {
-        if (!hasFlag && currentSupport[0].flags !== undefined) { hasFlag = true }
-        if (!hasPrefix && currentSupport[1].prefix !== undefined) { hasPrefix = true }
+        for (var support of currentSupport) {
+          if (support.alternative_name) {
+            if (!hasAlternative) { hasAlternative = true }
+            currentAlternatives.push(support);
+          } else if (support.prefix) {
+            if (!hasPrefix) { hasPrefix = true }
+            currentPrefixes.push(support);
+          } else if (support.flags) {
+            if (!hasFlag) { hasFlag = true }
+            currentFlags.concat(support.flags);
+          } else if (support.notes) {
+            Array.isArray(support.notes) ? currentNotes.concat(support.notes) : currentNotes.push(support.notes);
+          }
+        }
         return {
           index: `${rowIndex}-${detailIndex}`,
           browser: browserSupportDetail.browser,
           support: currentSupport,
-          prefix: { prefix: currentSupport[1].prefix, versionAdded: currentSupport[1].version_added },
-          notes: currentSupport[0].notes || null,
-          flags: currentSupport[0].flags || null,
-          versionAdded: browserSupportDetail.versionAdded
+          prefixes: currentPrefixes,
+          alternatives: currentAlternatives,
+          notes: currentNotes,
+          flags: currentFlags,
+          version_added: browserSupportDetail.version_added
         }
       }
       else {
@@ -63,22 +80,34 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
           index: `${rowIndex}-${detailIndex}`,
           browser: browserSupportDetail.browser,
           support: currentSupport,
-          prefix: currentSupport !== undefined ? currentSupport.prefix !== undefined ? { prefix: currentSupport.prefix, versionAdded: currentSupport.version_added } : null : null,
-          notes: currentSupport !== undefined ? currentSupport.notes || null : null,
-          flags: currentSupport !== undefined ? currentSupport.flags || null : null,
-          versionAdded: browserSupportDetail.versionAdded
+          prefixes: currentSupport !== undefined && currentSupport.prefix !== undefined
+                      ? [{ prefix: currentSupport.prefix, version_added: currentSupport.version_added }]
+                      : [],
+          alternatives: currentSupport !== undefined && currentSupport.alternative_name !== undefined
+                          ? [{ alternative_name: currentSupport.alternative_name, version_added: currentSupport.version_added, version_removed: currentSupport.version_removed }]
+                          : [],
+          notes: currentSupport !== undefined
+                   ? Array.isArray(currentSupport.notes)
+                     ? currentSupport.notes
+                     : currentSupport.notes === undefined
+                       ? []
+                       : [currentSupport.notes]
+                   : [],
+          flags: currentSupport !== undefined ? currentSupport.flags || [] : [],
+          version_added: browserSupportDetail.version_added
         };
       }
     })
     .filter(indexNotes => ((!!indexNotes.notes || !!indexNotes.flags || !!indexNotes.prefix) && `bc-history-${indexNotes.index}` === currentNoteId)),
     hasFlag,
-    hasPrefix
+    hasPrefix,
+    hasAlternative
   ]
 }
 
 export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, onNotesClick, currentNoteId, setLegendIcons }) {
   const compatibilityRows = buildCompatibility(compatibilityData, displayBrowsers);
-  let hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix = false;
+  let hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative = false;
   let indexNotes;
   const browserCompatibilityRows = compatibilityRows.map((compatibilityRow, rowIndex) => {
     for (const element in compatibilityRow) {
@@ -91,10 +120,10 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
         return {
           browser: browser,
           support: currentSupport,
-          versionAdded: getVersionAdded(currentSupport)
+          version_added: getVersionAdded(currentSupport)
         };
       });
-      [indexNotes, hasFlag, hasPrefix] = buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag, hasPrefix)
+      [indexNotes, hasFlag, hasPrefix, hasAlternative] = buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag, hasPrefix, hasAlternative);
       return [
         <tr key={rowIndex}>
           <th scope="row">
@@ -121,7 +150,18 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
         		  </div>
           </th>
           {browserSupportDetails.map((browserSupportDetail, detailIndex) => {
-            return <BrowserSupportDetail key={`${rowIndex}-${detailIndex}`} index={`${rowIndex}-${detailIndex}`} browser={browserSupportDetail.browser} support={browserSupportDetail.support} versionAdded={browserSupportDetail.versionAdded} currentNoteId={currentNoteId} onNotesClick={onNotesClick} indexNote={indexNotes.find(indexNotes => (indexNotes.index === `${rowIndex}-${detailIndex}`))} />
+            return (
+              <BrowserSupportDetail
+                key={`${rowIndex}-${detailIndex}`}
+                index={`${rowIndex}-${detailIndex}`}
+                browser={browserSupportDetail.browser}
+                support={browserSupportDetail.support}
+                versionAdded={browserSupportDetail.version_added}
+                currentNoteId={currentNoteId}
+                onNotesClick={onNotesClick}
+                indexNote={indexNotes.find(indexNotes => (indexNotes.index === `${rowIndex}-${detailIndex}`))}
+              />
+            )
           })}
        </tr>,
        ...indexNotes.map((indexNote) => {
@@ -140,6 +180,6 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
     }
     return true;
   })
-  setLegendIcons(hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix);
+  setLegendIcons(hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative);
   return browserCompatibilityRows;
 }

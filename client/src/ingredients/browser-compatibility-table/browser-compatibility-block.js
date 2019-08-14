@@ -1,7 +1,7 @@
 import React from "react";
 import BrowserName from './utils/browser-name'
 
-export function BrowserCompatibilityBlock({ icon, browser, versionAdded, elementType, index, onNotesClick, currentNoteId, children }) {
+export function BrowserCompatibilityBlock({ icon, browser, versionAdded, versionRemoved, elementType, index, onNotesClick, currentNoteId, children }) {
   let isSupported;
   let textContent;
   let bcSupport;
@@ -33,16 +33,22 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, element
   }
   switch(icon) {
     case "note":
-      bcIcon = "ic-footnote"
-      bcIconTitle = "See implementation notes"
+      bcIcon = "ic-footnote";
+      bcIconTitle = "See implementation notes";
       break;
     case "flag":
-      bcIcon = "ic-disabled"
-      bcIconTitle = "User must explicitly enable this feature."
+      bcIcon = "ic-disabled";
+      bcIconTitle = "User must explicitly enable this feature.";
       break;
     case "prefix":
-      bcIcon = "ic-prefix"
-      bcIconTitle = "Implemented with a vendor prefix"
+      bcIcon = "ic-prefix";
+      bcIconTitle = "Implemented with a vendor prefix";
+      break;
+    case "alternative":
+      isSupported = 'no';
+      textContent = `${typeof versionAdded === 'string' ? versionAdded : '?'} - ${versionRemoved}`;
+      bcIcon = "ic-altname";
+      bcIconTitle = "Uses a non-standard name";
       break;
     default:
       break;

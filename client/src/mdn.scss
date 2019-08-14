@@ -436,6 +436,7 @@ div.content {
     text-align: left;
     margin: 20px;
     padding-left: 350px;
+    max-width: 85%;
   }
 
   .bc-history dd.padded-note {
@@ -508,6 +509,13 @@ div.content {
     background-size: 24px;
     width: 24px;
     height: 24px;
+  }
+
+  .ic-altname:before {
+    background-image: url("https://developer.mozilla.org/static/browser-compat-general/alternate.72dda33cf00f.svg");
+    background-size: 12px;
+    width: 12px;
+    height: 22px;
   }
 
   .offscreen, .only-icon span {

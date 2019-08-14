@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserCompatibilityBlock } from './browser-compatibility-block';
 import { BrowserSupportNoteContent } from './browser-support-note-content';
 
-export function BrowserSupportNote({ indexNote, versionAdded, noteContent, noteType, blockElementType, noteElementType, displayBlock, displayNote }) {
+export function BrowserSupportNote({ indexNote, versionAdded, versionRemoved, noteContent, noteType, blockElementType, noteElementType, displayBlock, displayNote }) {
   let note = []
   if (displayBlock) {
     note.push(
-      <BrowserCompatibilityBlock key={`block-${indexNote.index}`} icon={noteType} browser={indexNote.browser} versionAdded={versionAdded} elementType={blockElementType} />
+      <BrowserCompatibilityBlock key={`block-${indexNote.index}`} icon={noteType} browser={indexNote.browser} versionAdded={versionAdded} versionRemoved={versionRemoved} elementType={blockElementType} />
     );
   }
   if (displayNote) {
