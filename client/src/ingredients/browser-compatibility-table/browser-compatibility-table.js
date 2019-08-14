@@ -71,6 +71,9 @@ export default class BrowserCompatibilityTable extends Component {
 
   render() {
     let [platforms, displayBrowsers] = this.gatherPlatformsAndBrowsers(this.props.document, this.props.category);
+    if (!this.state.compatibilityData) {
+      return <div/>
+    }
     return (
       [
         <table key="bc-table" className="bc-table bc-table-web">
