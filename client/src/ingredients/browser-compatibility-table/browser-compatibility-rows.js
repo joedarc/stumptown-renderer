@@ -61,10 +61,7 @@ function RenderBrowserSupportDetails({browserSupportDetails, rowIndex, indexNote
 function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag, hasPrefix, hasAlternative) {
   return [
     browserSupportDetails.map((browserSupportDetail, detailIndex) => {
-      let currentNotes = [];
-      let currentFlags = [];
-      let currentPrefixes = [];
-      let currentAlternatives = [];
+      let [currentNotes, currentFlags, currentPrefixes, currentAlternatives] = [[], [], [], []];
       let currentSupport = browserSupportDetail.support;
       if (Array.isArray(currentSupport)) {
         for (var support of currentSupport) {
@@ -126,7 +123,7 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
 
 export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, onNotesClick, currentNoteId, setLegendIcons }) {
   const compatibilityRows = buildCompatibility(compatibilityData, displayBrowsers);
-  let hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative = false;
+  let [hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative] = [false, false, false, false, false, false];
   let indexNotes;
   const browserCompatibilityRows = compatibilityRows.map((compatibilityRow, rowIndex) => {
     for (const element in compatibilityRow) {
@@ -168,7 +165,12 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
                 }
         		  </div>
           </th>
-          <RenderBrowserSupportDetails browserSupportDetails={browserSupportDetails} rowIndex={rowIndex} indexNotes={indexNotes} currentNoteId={currentNoteId} onNotesClick={onNotesClick} />
+          <RenderBrowserSupportDetails
+            browserSupportDetails={browserSupportDetails}
+            rowIndex={rowIndex}
+            indexNotes={indexNotes}
+            currentNoteId={currentNoteId}
+            onNotesClick={onNotesClick} />
        </tr>,
        ...indexNotes.map((indexNote) => {
          return (

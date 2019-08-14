@@ -4,8 +4,7 @@ import { BrowserSupportNote } from './browser-support-note';
 export function BrowserSupportNotes({ indexNote, blockElementType, noteElementType, noBlocks }) {
   let prefixDisplayed, blockDisplayed = false;
   let browserSupportNotes = [];
-  let currentNoteContent;
-  let currentNote;
+  let currentNoteContent, currentNote;
   if (indexNote.support.prefix !== undefined) {
     currentNoteContent = `<abbr class="only-icon" title="Implemented with the vendor prefix: ${indexNote.prefixes[0].prefix}"><span>Prefixed</span><i class="ic-prefix"></i></abbr>Implemented with the vendor prefix: ${indexNote.prefixes[0].prefix}`;
     browserSupportNotes.push(
@@ -120,7 +119,5 @@ export function BrowserSupportNotes({ indexNote, blockElementType, noteElementTy
       })
     )
   }
-  return (
-   browserSupportNotes
-  )
+  return browserSupportNotes
 }
