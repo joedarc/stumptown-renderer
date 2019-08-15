@@ -108,7 +108,7 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
   ];
 }
 
-// Find and return notes inside a support object and return as an array
+// Find notes inside a support object and return as an array
 function gatherNotesForIndexNote(currentSupport) {
   if (!currentSupport) { return []; }
   if (Array.isArray(currentSupport.notes)) {
