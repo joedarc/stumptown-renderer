@@ -1,13 +1,13 @@
 import React from "react";
 import BrowserName from "./utils/browser-name";
 
-export function BrowserCompatibilityBlock({ icon, browser, versionAdded, versionRemoved, elementType, index, onNotesClick, currentNoteId, children }) {
+export function BrowserCompatibilityBlock({ icon, browser, versionAdded, versionRemoved, elementTag, index, onNotesClick, currentNoteId, children }) {
   let isSupported;
   let textContent;
   let bcSupport;
   let bcIcon;
   let bcIconTitle;
-  let hasChildren = (children !== undefined) ? true : false;
+  let hasChildren = !!children;
   switch(versionAdded) {
     case true:
       isSupported = "yes";
@@ -55,9 +55,9 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
   }
   return (
     React.createElement(
-    `${elementType}`,
+    `${elementTag}`,
     {
-      className: `bc-browser-${browser} bc-supports-${isSupported} ${elementType === "dt" ? "bc-supports" : ""}`,
+      className: `bc-browser-${browser} bc-supports-${isSupported} ${elementTag === "dt" ? "bc-supports" : ""}`,
       key: `${browser}-compat`,
       onClick: (hasChildren && (() => {onNotesClick(index)})) || null,
       "aria-expanded": hasChildren ? currentNoteId === index ? "true" : "false" : null,
@@ -65,7 +65,7 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
       tabIndex: hasChildren ? 0 : null
     },
     [
-      elementType === "td" && <span key={`${browser}-name`} className="bc-browser-name"><BrowserName browserNameKey={browser}/></span>,
+      elementTag === "td" && <span key={`${browser}-name`} className="bc-browser-name"><BrowserName browserNameKey={browser}/></span>,
       <abbr key={`${browser}-support`} className={`bc-level-${isSupported} only-icon`} title={bcSupport}><span>{bcSupport}</span></abbr>,
       <span key={`${browser}-content`}>{textContent}</span>,
       <div key={`${browser}-icons`} className="bc-icons">

@@ -133,7 +133,7 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
       if (!hasExperimental) { hasExperimental = !!currentRow.status.experimental; }
       if (!hasNonStandard) { hasNonStandard = !!currentRow.status.standard_track; }
       const browserSupportDetails = displayBrowsers.map((browser) => {
-        let currentSupport = currentRow.support[browser]
+        let currentSupport = currentRow.support[browser];
         return {
           browser: browser,
           support: currentSupport,
@@ -173,18 +173,16 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
             currentNoteId={currentNoteId}
             onNotesClick={onNotesClick} />
        </tr>,
-       ...indexNotes.map((indexNote) => {
-         return (
-           <tr key={`notes-${indexNote.index}`} id={`bc-history-${indexNote.index}`} className="bc-history" aria-hidden="false">
-             <th scope="row" />
-             <td colSpan={browserSupportDetails.length}>
-               <dl>
-                 <BrowserSupportNotes key={`${indexNote.index}`} indexNote={indexNote} blockElementType="dt" noteElementType="dd" />
-               </dl>
-             </td>
-           </tr>
-         )
-       })
+       ...indexNotes.map((indexNote) =>
+         <tr key={`notes-${indexNote.index}`} id={`bc-history-${indexNote.index}`} className="bc-history" aria-hidden="false">
+           <th scope="row" />
+           <td colSpan={browserSupportDetails.length}>
+             <dl>
+               <BrowserSupportNotes key={`notes-detail-${indexNote.index}`} indexNote={indexNote} blockElementTag="dt" noteElementTag="dd" />
+             </dl>
+           </td>
+         </tr>
+       )
      ];
     }
     return true;

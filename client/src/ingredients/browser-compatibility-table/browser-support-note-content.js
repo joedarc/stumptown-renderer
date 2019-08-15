@@ -1,9 +1,9 @@
 import React from "react";
 
-export function BrowserSupportNoteContent({ noteContent, elementType }) {
+export function BrowserSupportNoteContent({ noteContent, elementTag }) {
   return (
     React.createElement(
-    `${elementType}`,
+    `${elementTag}`,
     {
       dangerouslySetInnerHTML: {__html: noteContent}
     }
