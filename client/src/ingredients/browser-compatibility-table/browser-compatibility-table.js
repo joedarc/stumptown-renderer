@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserCompatibilityPlatforms } from './browser-compatibility-platforms'
-import { BrowserCompatibilityBrowsers } from './browser-compatibility-browsers'
-import { BrowserCompatibilityRows } from './browser-compatibility-rows'
-import { BrowserCompatibilityLegend } from './browser-compatibility-legend'
+import { BrowserCompatibilityPlatforms } from "./browser-compatibility-platforms";
+import { BrowserCompatibilityBrowsers } from "./browser-compatibility-browsers";
+import { BrowserCompatibilityRows } from "./browser-compatibility-rows";
+import { BrowserCompatibilityLegend } from "./browser-compatibility-legend";
 const browsers = {
-  "desktop": ['chrome', 'edge', 'firefox', 'ie', 'opera', 'safari'],
-  "mobile": ['webview_android', 'chrome_android', 'firefox_android', 'opera_android', 'safari_ios', 'samsunginternet_android', 'edge_mobile'],
-  "server": ['nodejs'],
-  "webextensions-desktop": ['chrome', 'edge', 'firefox', 'opera'],
-  "webextensions-mobile": ['firefox_android']
+  "desktop": ["chrome", "edge", "firefox", "ie", "opera", "safari"],
+  "mobile": ["webview_android", "chrome_android", "firefox_android", "opera_android", "safari_ios", "samsunginternet_android", "edge_mobile"],
+  "server": ["nodejs"],
+  "webextensions-desktop": ["chrome", "edge", "firefox", "opera"],
+  "webextensions-mobile": ["firefox_android"]
 };
 
 export default class BrowserCompatibilityTable extends Component {
@@ -34,15 +34,15 @@ export default class BrowserCompatibilityTable extends Component {
   }
 
   gatherPlatformsAndBrowsers(document, category) {
-    let platforms = ['desktop', 'mobile'];
-    let displayBrowsers = [...browsers['desktop'], ...browsers['mobile']];
-    if (category === 'javascript') {
+    let platforms = ["desktop", "mobile"];
+    let displayBrowsers = [...browsers["desktop"], ...browsers["mobile"]];
+    if (category === "javascript") {
       displayBrowsers.push(...browsers["server"]);
-      platforms.push('server');
+      platforms.push("server");
     }
-    if (category === 'webextensions') {
+    if (category === "webextensions") {
       displayBrowsers = [...browsers["webextensions-desktop"], ...browsers["webextensions-mobile"]];
-      platforms = ['webextensions-desktop', 'webextensions-mobile'];
+      platforms = ["webextensions-desktop", "webextensions-mobile"];
     }
     return [platforms, displayBrowsers];
   }

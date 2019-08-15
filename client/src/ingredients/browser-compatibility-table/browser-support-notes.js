@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserSupportNote } from './browser-support-note';
+import { BrowserSupportNote } from "./browser-support-note";
 
 export function BrowserSupportNotes({ indexNote, blockElementType, noteElementType, noBlocks }) {
   let prefixDisplayed, blockDisplayed = false;

@@ -1,5 +1,5 @@
 import React from "react";
-import BrowserName from './utils/browser-name'
+import BrowserName from "./utils/browser-name";
 
 export function BrowserCompatibilityBrowsers({ displayBrowsers }) {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import BrowserName from './utils/browser-name'
+import BrowserName from "./utils/browser-name";
 
 export function BrowserCompatibilityBlock({ icon, browser, versionAdded, versionRemoved, elementType, index, onNotesClick, currentNoteId, children }) {
   let isSupported;
@@ -7,26 +7,26 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
   let bcSupport;
   let bcIcon;
   let bcIconTitle;
-  let hasChildren = (children !== undefined) ? true : false
+  let hasChildren = (children !== undefined) ? true : false;
   switch(versionAdded) {
     case true:
-      isSupported = 'yes';
-      textContent = 'Yes';
+      isSupported = "yes";
+      textContent = "Yes";
       bcSupport = "Full Support";
       break;
     case false:
-      isSupported = 'no';
-      textContent = 'No';
+      isSupported = "no";
+      textContent = "No";
       bcSupport = "No Support";
       break;
     case null:
     case undefined:
-      isSupported = 'unknown';
-      textContent = '?';
+      isSupported = "unknown";
+      textContent = "?";
       bcSupport = "Compatibility unknown; please update this.";
       break;
     default:
-      isSupported = 'yes';
+      isSupported = "yes";
       textContent = `${versionAdded}`;
       bcSupport = "Full Support";
       break;
@@ -45,8 +45,8 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
       bcIconTitle = "Implemented with a vendor prefix";
       break;
     case "alternative":
-      isSupported = 'no';
-      textContent = `${typeof versionAdded === 'string' ? versionAdded : '?'} - ${versionRemoved}`;
+      isSupported = "no";
+      textContent = `${typeof versionAdded === "string" ? versionAdded : "?"} - ${versionRemoved}`;
       bcIcon = "ic-altname";
       bcIconTitle = "Uses a non-standard name";
       break;
@@ -57,15 +57,15 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
     React.createElement(
     `${elementType}`,
     {
-      className: `bc-browser-${browser} bc-supports-${isSupported} ${elementType === 'dt' ? 'bc-supports' : ''}`,
+      className: `bc-browser-${browser} bc-supports-${isSupported} ${elementType === "dt" ? "bc-supports" : ""}`,
       key: `${browser}-compat`,
       onClick: (hasChildren && (() => {onNotesClick(index)})) || null,
-      'aria-expanded': hasChildren ? currentNoteId === index ? "true" : "false" : null,
-      'aria-controls': hasChildren ? `${index}` : null,
+      "aria-expanded": hasChildren ? currentNoteId === index ? "true" : "false" : null,
+      "aria-controls": hasChildren ? `${index}` : null,
       tabIndex: hasChildren ? 0 : null
     },
     [
-      elementType === 'td' && <span key={`${browser}-name`} className="bc-browser-name"><BrowserName browserNameKey={browser}/></span>,
+      elementType === "td" && <span key={`${browser}-name`} className="bc-browser-name"><BrowserName browserNameKey={browser}/></span>,
       <abbr key={`${browser}-support`} className={`bc-level-${isSupported} only-icon`} title={bcSupport}><span>{bcSupport}</span></abbr>,
       <span key={`${browser}-content`}>{textContent}</span>,
       <div key={`${browser}-icons`} className="bc-icons">
@@ -74,7 +74,7 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
           <i className={`${bcIcon}`}></i>
         </abbr>
       </div>,
-      children !== undefined && children
+      children
     ]
    )
  )

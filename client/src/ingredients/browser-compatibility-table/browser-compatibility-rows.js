@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserSupportDetail } from './browser-support-detail';
-import { BrowserSupportNotes } from './browser-support-notes';
+import { BrowserSupportDetail } from "./browser-support-detail";
+import { BrowserSupportNotes } from "./browser-support-notes";
 
 function buildCompatibility(compatibilityData, displayBrowsers) {
   let features = [];
@@ -9,9 +9,9 @@ function buildCompatibility(compatibilityData, displayBrowsers) {
       [`${compatibilityData.__compat.mdn_url.split('/').pop()}`]: compatibilityData.__compat
     });
     for(var compat in compatibilityData) {
-      if (compat !== "__compat" && compatibilityData[compat]['__compat'] !== undefined) {
+      if (compat !== "__compat" && !!compatibilityData[compat]["__compat"]) {
         features.push ({
-          [compat]: compatibilityData[compat]['__compat']
+          [compat]: compatibilityData[compat]["__compat"]
         });
       }
     }
@@ -22,21 +22,14 @@ function buildCompatibility(compatibilityData, displayBrowsers) {
 function getVersionAdded(support) {
   if (support === undefined) {
     return null;
-  } else if (Array.isArray(support)) {
-    return getVersion(support[0].version_added);
-  } else if (support.prefix) {
-    return `${support.version_added}`
-  } else {
-    return getVersion(support.version_added);
   }
-}
-
-function getVersion(version_added) {
-  if (version_added !== null && version_added !== undefined) {
-    return version_added;
-  } else {
-    return null
+  if (Array.isArray(support)) {
+    return support[0].version_added;
   }
+  if (support.prefix) {
+    return `${support.version_added}`;
+  }
+  return support.version_added;
 }
 
 function getIndexNoteForBrowserDetail(indexNotes, browserDetailIndex) {
@@ -66,13 +59,13 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
       if (Array.isArray(currentSupport)) {
         for (var support of currentSupport) {
           if (support.alternative_name) {
-            if (!hasAlternative) { hasAlternative = true }
+            if (!hasAlternative) { hasAlternative = true; }
             currentAlternatives.push(support);
           } else if (support.prefix) {
-            if (!hasPrefix) { hasPrefix = true }
+            if (!hasPrefix) { hasPrefix = true; }
             currentPrefixes.push(support);
           } else if (support.flags) {
-            if (!hasFlag) { hasFlag = true }
+            if (!hasFlag) { hasFlag = true; }
             currentFlags.concat(support.flags);
           } else if (support.notes) {
             Array.isArray(support.notes) ? currentNotes.concat(support.notes) : currentNotes.push(support.notes);
@@ -87,29 +80,23 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
           notes: currentNotes,
           flags: currentFlags,
           version_added: browserSupportDetail.version_added
-        }
+        };
       }
       else {
-        if (currentSupport !== undefined && !hasFlag && currentSupport.flags !== undefined) { hasFlag = true }
-        if (currentSupport !== undefined && !hasPrefix && currentSupport.prefix !== undefined) { hasPrefix = true }
+        if (!hasFlag) { hasFlag = !!(currentSupport && currentSupport.flags); }
+        if (!hasPrefix) { hasPrefix = !!(currentSupport && currentSupport.prefix); }
         return {
           index: `${rowIndex}-${detailIndex}`,
           browser: browserSupportDetail.browser,
           support: currentSupport,
-          prefixes: currentSupport !== undefined && currentSupport.prefix !== undefined
+          prefixes: !!currentSupport && !!currentSupport.prefix
                       ? [{ prefix: currentSupport.prefix, version_added: currentSupport.version_added }]
                       : [],
-          alternatives: currentSupport !== undefined && currentSupport.alternative_name !== undefined
+          alternatives: !!currentSupport && !!currentSupport.alternative_name
                           ? [{ alternative_name: currentSupport.alternative_name, version_added: currentSupport.version_added, version_removed: currentSupport.version_removed }]
                           : [],
-          notes: currentSupport !== undefined
-                   ? Array.isArray(currentSupport.notes)
-                     ? currentSupport.notes
-                     : currentSupport.notes === undefined
-                       ? []
-                       : [currentSupport.notes]
-                   : [],
-          flags: currentSupport !== undefined ? currentSupport.flags || [] : [],
+          notes: gatherNotesForIndexNote(currentSupport),
+          flags: !!currentSupport ? currentSupport.flags || [] : [],
           version_added: browserSupportDetail.version_added
         };
       }
@@ -118,7 +105,21 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
     hasFlag,
     hasPrefix,
     hasAlternative
-  ]
+  ];
+}
+
+// Find and return notes inside a support object and return as an array
+function gatherNotesForIndexNote(currentSupport) {
+  if (!currentSupport) { return []; }
+  if (Array.isArray(currentSupport.notes)) {
+    return currentSupport.notes;
+  } else {
+    if (!!currentSupport.notes) {
+      return [currentSupport.notes];
+    } else {
+      return [];
+    }
+  }
 }
 
 export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, onNotesClick, currentNoteId, setLegendIcons }) {
@@ -128,9 +129,9 @@ export function BrowserCompatibilityRows({ compatibilityData, displayBrowsers, o
   const browserCompatibilityRows = compatibilityRows.map((compatibilityRow, rowIndex) => {
     for (const element in compatibilityRow) {
       let currentRow = compatibilityRow[element];
-      if (!hasDeprecation && currentRow.status.deprecated) { hasDeprecation = true }
-      if (!hasExperimental && currentRow.status.experimental) { hasExperimental = true }
-      if (!hasNonStandard && !currentRow.status.standard_track) { hasNonStandard = true }
+      if (!hasDeprecation) { hasDeprecation = !!currentRow.status.deprecated; }
+      if (!hasExperimental) { hasExperimental = !!currentRow.status.experimental; }
+      if (!hasNonStandard) { hasNonStandard = !!currentRow.status.standard_track; }
       const browserSupportDetails = displayBrowsers.map((browser) => {
         let currentSupport = currentRow.support[browser]
         return {

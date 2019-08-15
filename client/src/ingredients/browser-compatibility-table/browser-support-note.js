@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserCompatibilityBlock } from './browser-compatibility-block';
-import { BrowserSupportNoteContent } from './browser-support-note-content';
+import { BrowserCompatibilityBlock } from "./browser-compatibility-block";
+import { BrowserSupportNoteContent } from "./browser-support-note-content";
 
 export function BrowserSupportNote({ indexNote, versionAdded, versionRemoved, noteContent, noteType, blockElementType, noteElementType, displayBlock, displayNote }) {
   let note = []

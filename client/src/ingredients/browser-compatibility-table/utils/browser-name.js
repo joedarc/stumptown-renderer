@@ -6,25 +6,25 @@ export default function BrowserName({ browserNameKey }) {
     case 'firefox':
     case 'opera':
     case 'safari':
-        firstChar = browserNameKey.charAt(0);
-        return browserNameKey.replace(firstChar, firstChar.toUpperCase());
+      firstChar = browserNameKey.charAt(0);
+      return browserNameKey.replace(firstChar, firstChar.toUpperCase());
     case 'ie':
-        return browserNameKey.toUpperCase();
+      return browserNameKey.toUpperCase();
     case 'webview_android':
-        return 'WebView Android';
+      return 'WebView Android';
     case 'chrome_android':
-        return 'Chrome Android';
+      return 'Chrome Android';
     case 'firefox_android':
-        return 'Firefox Android';
+      return 'Firefox Android';
     case 'opera_android':
-        return 'Opera Android';
+      return 'Opera Android';
     case 'safari_ios':
-        return 'Safari iOS';
+      return 'Safari iOS';
     case 'samsunginternet_android':
-        return 'Samsung Internet';
+      return 'Samsung Internet';
     case 'edge_mobile':
-        return 'Edge Android';
+      return 'Edge Android';
     default:
-        return browserNameKey;
+      return browserNameKey;
   }
 }
