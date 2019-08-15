@@ -90,10 +90,10 @@ function buildIndexNotes(browserSupportDetails, rowIndex, currentNoteId, hasFlag
           browser: browserSupportDetail.browser,
           support: currentSupport,
           prefixes: !!currentSupport && !!currentSupport.prefix
-                      ? [{ prefix: currentSupport.prefix, version_added: currentSupport.version_added }]
+                      ? [currentSupport]
                       : [],
           alternatives: !!currentSupport && !!currentSupport.alternative_name
-                          ? [{ alternative_name: currentSupport.alternative_name, version_added: currentSupport.version_added, version_removed: currentSupport.version_removed }]
+                          ? [currentSupport]
                           : [],
           notes: gatherNotesForIndexNote(currentSupport),
           flags: !!currentSupport ? currentSupport.flags || [] : [],

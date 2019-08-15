@@ -5,7 +5,7 @@ export function BrowserSupportNotes({ indexNote, blockElementTag, noteElementTag
   let [prefixDisplayed, blockDisplayed] = [false, false];
   let browserSupportNotes = [];
   let currentNoteContent, currentNote;
-  if (indexNote.support.prefix !== undefined) {
+  if (!!indexNote.support.prefix) {
     currentNoteContent = `<abbr class="only-icon" title="Implemented with the vendor prefix: ${indexNote.prefixes[0].prefix}"><span>Prefixed</span><i class="ic-prefix"></i></abbr>Implemented with the vendor prefix: ${indexNote.prefixes[0].prefix}`;
     browserSupportNotes.push(
       <BrowserSupportNote
@@ -71,10 +71,10 @@ export function BrowserSupportNotes({ indexNote, blockElementTag, noteElementTag
             noteType="flag"
             blockElementTag={blockElementTag}
             noteElementTag={noteElementTag}
-            displayBlock={noBlocks ? false : blockDisplayed ? flag.version_added !== undefined ? true : false : true}
+            displayBlock={noBlocks ? false : blockDisplayed ? !!flag.version_added ? true : false : true}
             displayNote
           />
-        )
+        );
       })
     );
   }
@@ -92,10 +92,10 @@ export function BrowserSupportNotes({ indexNote, blockElementTag, noteElementTag
             noteType="alternative"
             blockElementTag={blockElementTag}
             noteElementTag={noteElementTag}
-            displayBlock={noBlocks ? false : blockDisplayed ? alternative.version_added !== undefined ? true : false : true}
+            displayBlock={noBlocks ? false : blockDisplayed ? !!alternative.version_added ? true : false : true}
             displayNote
           />
-        )
+        );
       })
     );
   }
