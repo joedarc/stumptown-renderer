@@ -61,7 +61,7 @@ export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, ha
             <dt key="experimental-dt">
               <abbr className="only-icon" title="Experimental. Expect behavior to change in the future.">
                 <span>Experimental. Expect behavior to change in the future.</span>
-                <i className="ic-experimental"/>
+                <i className="ic-experimental" />
               </abbr>
             </dt>,
             <dd key="experimental-dd">Experimental. Expect behavior to change in the future.</dd>
@@ -72,7 +72,7 @@ export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, ha
             <dt key="standard-dt">
               <abbr className="only-icon" title="Non-standard. Expect poor cross-browser support.">
                 <span>Non-standard. Expect poor cross-browser support.</span>
-                <i className="ic-non-standard"/>
+                <i className="ic-non-standard" />
               </abbr>
             </dt>,
             <dd key="standard-dd">Non-standard. Expect poor cross-browser support.</dd>
@@ -83,7 +83,7 @@ export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, ha
             <dt key="flag-dt">
               <abbr className="only-icon" title="User must explicitly enable this feature.">
                 <span>User must explicitly enable this feature.</span>
-                <i className="ic-disabled"/>
+                <i className="ic-disabled" />
               </abbr>
             </dt>,
             <dd key="flag-dd">User must explicitly enable this feature.</dd>
@@ -94,7 +94,7 @@ export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, ha
             <dt key="prefix-dt">
               <abbr className="only-icon" title="Requires a vendor prefix or different name for use.">
                 <span>Requires a vendor prefix or different name for use.</span>
-                <i className="ic-prefix"/>
+                <i className="ic-prefix" />
               </abbr>
             </dt>,
             <dd key="prefix-dd">Requires a vendor prefix or different name for use.</dd>
@@ -105,7 +105,7 @@ export function BrowserCompatibilityLegend({ hasDeprecation, hasExperimental, ha
             <dt key="alternative-dt">
               <abbr className="only-icon" title="Uses a non-standard name.">
                 <span>Uses a non-standard name.</span>
-                <i className="ic-altname"/>
+                <i className="ic-altname" />
               </abbr>
             </dt>,
             <dd key="alternative-dd">Uses a non-standard name.</dd>

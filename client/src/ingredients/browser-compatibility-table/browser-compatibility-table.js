@@ -75,7 +75,7 @@ export default class BrowserCompatibilityTable extends Component {
 
   render() {
     if (!this.state.compatibilityData) {
-      return <div/>
+      return <div />
     }
 
     let [platforms, displayBrowsers] = this.gatherPlatformsAndBrowsers(this.props.document, this.props.category);
