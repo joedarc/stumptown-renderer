@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { BrowserCompatibilityPlatforms } from "./browser-compatibility-platforms";
 import { BrowserCompatibilityBrowsers } from "./browser-compatibility-browsers";
 import { BrowserCompatibilityRows } from "./browser-compatibility-rows";
 import { BrowserCompatibilityLegend } from "./browser-compatibility-legend";
+
 const browsers = {
   "desktop": ["chrome", "edge", "firefox", "ie", "opera", "safari"],
   "mobile": ["webview_android", "chrome_android", "firefox_android", "opera_android", "safari_ios", "samsunginternet_android", "edge_mobile"],
@@ -14,6 +15,7 @@ const browsers = {
 export default class BrowserCompatibilityTable extends Component {
   constructor (props) {
     super(props);
+    console.log(props.document.browser_compatibility);
     this.state = {
       compatibilityData: props.document.browser_compatibility,
       currentNoteId: null,
@@ -22,6 +24,7 @@ export default class BrowserCompatibilityTable extends Component {
       hasNonStandard: false,
       hasFlag: false,
       hasPrefix: false,
+      hasNotes: false,
       legendSet: false
     }
     this.onNotesClick = this.onNotesClick.bind(this);
@@ -51,54 +54,58 @@ export default class BrowserCompatibilityTable extends Component {
     if (this.state.currentNoteId && (this.state.currentNoteId === currentNoteId)) {
       this.setState({ currentNoteId: null });
     } else {
-      this.setState({currentNoteId: currentNoteId});
+      this.setState({ currentNoteId: currentNoteId });
     }
   }
 
-  setLegendIcons(hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative) {
+  setLegendIcons(hasDeprecation, hasExperimental, hasNonStandard, hasFlag, hasPrefix, hasAlternative, hasNotes) {
     if (!this.state.legendSet) {
       this.setState({
-        hasDeprecation: hasDeprecation,
-        hasExperimental: hasExperimental,
-        hasNonStandard: hasNonStandard,
-        hasFlag: hasFlag,
-        hasPrefix: hasPrefix,
-        hasAlternative: hasAlternative,
+        hasDeprecation,
+        hasExperimental,
+        hasNonStandard,
+        hasFlag,
+        hasPrefix,
+        hasAlternative,
+        hasNotes,
         legendSet: true
       });
     }
   }
 
   render() {
-    let [platforms, displayBrowsers] = this.gatherPlatformsAndBrowsers(this.props.document, this.props.category);
     if (!this.state.compatibilityData) {
       return <div/>
     }
+
+    let [platforms, displayBrowsers] = this.gatherPlatformsAndBrowsers(this.props.document, this.props.category);
     return (
       [
         <table key="bc-table" className="bc-table bc-table-web">
           <thead>
-            <BrowserCompatibilityPlatforms platforms={ platforms } browsers={ browsers } />
-            <BrowserCompatibilityBrowsers displayBrowsers={ displayBrowsers } />
+            <BrowserCompatibilityPlatforms platforms={platforms} browsers={browsers} />
+            <BrowserCompatibilityBrowsers displayBrowsers={displayBrowsers} />
           </thead>
           <tbody>
             <BrowserCompatibilityRows
-              compatibilityData={ this.state.compatibilityData }
-              displayBrowsers={ displayBrowsers }
-              currentNoteId={ this.state.currentNoteId }
-              onNotesClick={ this.onNotesClick }
-              setLegendIcons={ this.setLegendIcons }
+              compatibilityData={this.state.compatibilityData}
+              displayBrowsers={displayBrowsers}
+              currentNoteId={this.state.currentNoteId}
+              onNotesClick={this.onNotesClick}
+              setLegendIcons={this.setLegendIcons}
             />
           </tbody>
         </table>,
         <BrowserCompatibilityLegend
-          key={"bc-legend"}
+          key="bc-legend"
           hasDeprecation={this.state.hasDeprecation}
           hasExperimental={this.state.hasExperimental}
           hasNonStandard={this.state.hasNonStandard}
           hasFlag={this.state.hasFlag}
           hasPrefix={this.state.hasPrefix}
-          hasAlternative={this.state.hasAlternative}/>
+          hasAlternative={this.state.hasAlternative}
+          hasNotes={this.state.hasNotes}
+        />
       ]
     );
   }

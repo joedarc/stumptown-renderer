@@ -60,18 +60,23 @@ export function BrowserCompatibilityBlock({ icon, browser, versionAdded, version
       className: `bc-browser-${browser} bc-supports-${isSupported} ${elementTag === "dt" ? "bc-supports" : ""}`,
       key: `${browser}-compat`,
       onClick: (hasChildren && (() => {onNotesClick(index)})) || null,
-      "aria-expanded": hasChildren ? currentNoteId === index ? "true" : "false" : null,
+      "aria-expanded": hasChildren ? currentNoteId === index : null,
       "aria-controls": hasChildren ? `${index}` : null,
       tabIndex: hasChildren ? 0 : null
     },
     [
-      elementTag === "td" && <span key={`${browser}-name`} className="bc-browser-name"><BrowserName browserNameKey={browser}/></span>,
+      (
+        elementTag === "td" &&
+        <span key={`${browser}-name`} className="bc-browser-name">
+          <BrowserName browserNameKey={browser} />
+        </span>
+      ),
       <abbr key={`${browser}-support`} className={`bc-level-${isSupported} only-icon`} title={bcSupport}><span>{bcSupport}</span></abbr>,
       <span key={`${browser}-content`}>{textContent}</span>,
       <div key={`${browser}-icons`} className="bc-icons">
         <abbr className="only-icon" title={`${bcIconTitle}`}>
           <span>Notes</span>
-          <i className={`${bcIcon}`}></i>
+          <i className={`${bcIcon}`} />
         </abbr>
       </div>,
       children
